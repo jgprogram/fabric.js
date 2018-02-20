@@ -18449,6 +18449,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       var activeSelection = new fabric.ActiveSelection([]);
       activeSelection.set(options);
       activeSelection.type = 'activeSelection';
+      canvas._activeObject = activeSelection;
       canvas.remove(this);
       objects.forEach(function(object) {
         object.group = activeSelection;
@@ -18457,8 +18458,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       });
       activeSelection.canvas = canvas;
       activeSelection._objects = objects;
-      canvas._activeObject = activeSelection;
       activeSelection.setCoords();
+      canvas.trigger('selection:updated', { target: activeSelection });
       return activeSelection;
     },
 
@@ -18664,6 +18665,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       canvas.add(newGroup);
       canvas._activeObject = newGroup;
       newGroup.setCoords();
+      canvas.trigger('selection:updated', { target: newGroup });
       return newGroup;
     },
 
